@@ -1,0 +1,14 @@
+# Archivos de entorno
+.env
+
+# Dependencias
+/node_modules
+/vendor
+
+# Archivos de caché
+*.log
+*.cache
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db 

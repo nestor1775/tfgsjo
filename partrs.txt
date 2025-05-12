@@ -1,0 +1,131 @@
+<ul class="m-4">
+        <?php
+        foreach ($partes as $parte) {
+            
+            echo "<li>" . $parte['fecha'] . "</li>";
+            echo "<li>" . $parte['horas_trabajadas'] . "</li>";
+            echo "<li>" . $parte['horas_extra'] . "</li>";
+            echo "<li>" . $parte['dia_festivo'] . "</li>";
+            echo "<li>" . $parte['observaciones'] . "</li>";
+            
+            // Mostrar la firma del responsable de la empresa origen como imagen
+            if (!empty($parte['firma_responsable_empresaorigen'])) {
+                echo "<li>Firma del responsable de la empresa origen:<br>";
+                echo "<img src='" . $parte['firma_responsable_empresaorigen'] . "' alt='Firma del responsable de la empresa origen' style='max-width: 300px; border: 1px solid #ccc;'>";
+                echo "</li>";
+            } else {
+                echo "<li>No hay firma del responsable de la empresa origen</li>";
+            }
+            
+            // Mostrar la firma del responsable de Airtek como imagen
+            if (!empty($parte['firma_responsable_airtek'])) {
+                echo "<li>Firma del responsable de Airtek:<br>";
+                echo "<img src='" . $parte['firma_responsable_airtek'] . "' alt='Firma del responsable de Airtek' style='max-width: 300px; border: 1px solid #ccc;'>";
+                echo "</li>";
+            } else {
+                echo "<li>No hay firma del responsable de Airtek</li>";
+            }
+        }
+        ?>
+    </ul>
+
+
+
+
+
+
+        <form action="done.php" method="POST">
+    
+
+    <label for="id_trabajador">Nombre del trabajador</label>
+    <select id="id_trabajador" name="id_trabajador" required>
+        <option value="" disabled selected>Selecciona un trabajador</option>
+        <?php
+        // Iterar sobre los administradores y crear una opción para cada uno
+        foreach ($workers as $worker) {
+            echo "<option value=\"" . $worker['id'] . "\">". $worker['nombre']." ". $worker['apellido'] . "</option>";
+        }
+        ?>
+    </select><br>
+
+    <label for="projectName">Nombre del proyecto asociado</label>
+    <input type="text" id="projectName" value="<?php echo $proyecto["nombre"] ?>" required readonly><br>
+    <input type="hidden" name="id_proyecto" value="<?= $proyecto['id'] ?>">
+
+    <label for="parteDate">fecha del parte</label>
+    <input type="date" id="parteDate" name="parteDate" required ><br>
+
+    <label for="hours">horas</label>
+    <input type="number" id="hours" name="hours" required ><br>
+
+    <label for="extraHours">horas extras</label>
+    <select id="extraHours" name="extraHours" required>
+        <option value="1" selected>si</option>
+        <option value="0">no</option>
+        
+    </select><br>
+
+    <label for="festiveDay">dia festivo</label>
+    <select id="festiveDay" name="festiveDay" required>
+        <option value="1" selected>si</option>
+        <option value="0">no</option>
+        
+    </select><br>
+
+    <label for="observations">observaciones</label>
+    <input type="text" id="observations" name="observations" ><br>
+
+
+    <label for="firmaCliente">Firma responsable (empresa origen)</label>
+    <div style="border: 1px solid #ccc; padding: 10px; max-width: 500px;">
+        <canvas id="firmaCliente" style="width: 100%; height: 200px; border: 1px solid #000;"></canvas>
+        <button type="button" onclick="borrarFirma('firmaCliente')" style="margin-top: 5px;">Borrar Firma</button>
+    </div>
+    <input type="hidden" name="firma_base64_cliente" id="firma_base64_cliente" required ><br>
+
+    <label for="firmaAirtek">Firma responsable (air tek system)</label>
+    <div style="border: 1px solid #ccc; padding: 10px; max-width: 500px;">
+        <canvas id="firmaAirtek" style="width: 100%; height: 200px; border: 1px solid #000;"></canvas>
+        <button type="button" onclick="borrarFirma('firmaAirtek')" style="margin-top: 5px;">Borrar Firma</button>
+    </div>
+    <input type="hidden" name="firma_base64_airtek" id="firma_base64_airtek" required >
+
+
+    <button type="submit">Crear Parte</button>
+</form>
+
+
+
+
+
+
+done.php localhost
+
+<div class="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto">
+    <?php 
+    if ($success == 1) {
+        echo '<div class="text-center">
+                <div class="mb-4 text-green-500">
+                    <i class="fas fa-check-circle text-5xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-green-600 mb-4">¡Parte insertado correctamente!</h1>
+                <a href="http://localhost:5000/views/parte.php?token=' . urlencode($tokenUnico) . '" class="btn inline-block font-medium py-2 px-4 rounded transition duration-300">
+                    <i class="fa fa-repeat mr-1"></i> Agregar otro parte
+                </a>
+              </div>';
+    } elseif ($success == 0) {
+        echo '<div class="text-center">
+                <div class="mb-4 text-red-500">
+                    <i class="fas fa-exclamation-circle text-5xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-red-600 mb-4">Error al insertar el parte</h1>
+                <p class="text-gray-600 mb-6">Ha ocurrido un error al registrar el parte de trabajo.</p>
+                <a href="http://localhost:5000/views/done.php?token=' . urlencode($tokenUnico) . '" class="btn inline-block font-medium py-2 px-4 rounded transition duration-300 bg-red-500 text-white hover:bg-red-600">
+                    <i class="fa fa-repeat mr-1"></i> Volver a insertar
+                </a>
+              </div>';
+    }
+    ?>
+</div>
+
+
