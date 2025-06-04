@@ -5,13 +5,12 @@ require 'vendor/autoload.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-// Supongamos que recibimos el ID del parte como parámetro GET
+
 $parteId = $_GET['parte_id'];  // Se espera que pase un parámetro parte_id
 
-// Aquí deberías obtener los datos del parte de trabajo desde tu base de datos, por ejemplo:
 $parte = obtenerPartePorId($parteId);  // Función que obtiene la información de la base de datos
 
-// Crear el contenido HTML del PDF
+
 $html = '
     <h1>Parte de Trabajo</h1>
     <h2>Fecha: ' . $parte['fecha'] . '</h2>
@@ -36,21 +35,16 @@ if (!empty($parte['firma_responsable_airtek'])) {
     ';
 }
 
-// Inicializar DomPDF
 $options = new Options();
-$options->set('isHtml5ParserEnabled', true);  // Habilitar HTML5
-$options->set('isPhpEnabled', true);  // Habilitar PHP en el HTML (en caso necesario)
+$options->set('isHtml5ParserEnabled', true);  
+$options->set('isPhpEnabled', true);  
 $pdf = new Dompdf($options);
 
-// Cargar el contenido HTML en DomPDF
 $pdf->loadHtml($html);
 
-// Configurar el tamaño del papel y la orientación
 $pdf->setPaper('A4', 'portrait');
 
-// Renderizar el PDF
 $pdf->render();
 
-// Generar el archivo PDF y ofrecerlo para descarga
 $pdf->stream('parte_de_trabajo.pdf', array('Attachment' => 1));  // 'Attachment' => 1 para forzar la descarga
 ?>

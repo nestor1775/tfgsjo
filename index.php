@@ -83,11 +83,31 @@ switch ($action) {
         break;
 
     case 'insertWorker':
-        // Obtener los proyectos activos
-        $insertWorker = $workerController->insertTrabajador($_POST[$name],$_POST[$apellido]);
-        // Incluir la vista de proyectos activos
-        header("Location: index.php?action=dashboard"); 
-        break;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["name"]) && isset($_POST["apellido"])) {
+            $insertWorker = $workerController->insertTrabajador($_POST["name"], $_POST["apellido"]);
+            
+            // Redirigir después del insert para evitar reenvío del formulario
+            header("Location: index.php?action=insertWorker&status=success");
+            exit;
+        } else {
+            include __DIR__ . '/views/insertWorker.php';
+            break;
+        }
+    
+    case 'deleteWorker':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["id"]) ) {
+            $deleteWorker = $workerController->deleteWorker($_POST["id"]);
+            
+            // Redirigir después del insert para evitar reenvío del formulario
+            header("Location: index.php?action=deleteWorker&status=success");
+            exit;
+        } else {
+            $workers = $workerController->getWorkers();
+            include __DIR__ . '/views/deleteWorker.php';
+            break;
+        }
+        
+        
 
     case 'viewProject':
         // Obtener el proyecto activo
@@ -98,13 +118,12 @@ switch ($action) {
         break;
 
     case 'getAllPartes':
-        // Devolver todas las partes en JSON para las gráficas
         header('Content-Type: application/json');
         $parteController->getAllPartes();
         break;
 
     case 'getCountByMonth':
-        // Devolver conteo de partes por mes en JSON para las gráficas
+        
         header('Content-Type: application/json');
         $parteController->getCountByMonth();
         break;
@@ -143,7 +162,7 @@ switch ($action) {
     
             // Redirigir para evitar reinserción
             $success = $resultado ? 1 : 0;
-            $token = $_GET['token'] ?? '';  // si lo estás usando
+            $token = $_GET['token'] ?? ''; 
     
             header("Location: index.php?action=doneLogin&success=$success&token=$token");
             exit;
@@ -158,6 +177,6 @@ switch ($action) {
     default:
         echo "Acción no válida";
         
-         // Mostrar mensaje si la acción no existe
+        
         break;
 }

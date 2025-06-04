@@ -1,11 +1,10 @@
 <?php
-// Define las variables necesarias
-$pageTitle = "Dashboard";
-$basePath = "../"; // Ajusta según la ubicación de la página
-$additionalCss = ''; // CSS adicional específico de la página
-$additionalScripts = '<script type="module" src="../js/chart.js"></script>';// Scripts adicionales específicos de la página
 
-// Incluir el header
+$pageTitle = "Dashboard";
+$basePath = "../"; 
+$additionalCss = ''; 
+$additionalScripts = '<script type="module" src="../js/chart.js"></script>';
+
 include_once __DIR__ . '/templates/header.php';
 
 ?>
@@ -55,6 +54,5 @@ include_once __DIR__ . '/templates/header.php';
 
 
 <?php
-// Incluir el footer
 include_once __DIR__ . '/templates/footer.php';
 ?>

@@ -3,13 +3,12 @@ require_once __DIR__ . '/../models/user.php';
 $user = new User();
 $admins = $user->getAll();
 
-// Define las variables necesarias
-$pageTitle = "Crear Proyecto";
-$basePath = "../"; // Ajusta según la ubicación de la página
-$additionalCss = ''; // CSS adicional específico de la página
-$additionalScripts = ''; // Scripts adicionales específicos de la página
 
-// Incluir el header
+$pageTitle = "Crear Proyecto";
+$basePath = "../"; 
+$additionalCss = ''; 
+$additionalScripts = ''; 
+
 include_once __DIR__ . '/templates/header.php';
 
 ?>

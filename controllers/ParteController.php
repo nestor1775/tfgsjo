@@ -35,7 +35,7 @@ if (!class_exists('ParteController')) {
             $correoService = new correoService();
 
             $pdfPath = $pdfService->generar($parte);
-            $correoService->enviar('accounts@airtek-systems.es', $pdfPath);
+            $correoService->enviar('nestorgomez123450@gmail.com', $pdfPath);
 
             header("Location: index.php?action=viewProject&id=" . $parte['id_proyecto']);
         }

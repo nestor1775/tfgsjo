@@ -1,11 +1,9 @@
 <?php
-// Define las variables necesarias
 $pageTitle = "Iniciar Sesión";
-$basePath = "../"; // Ajusta según la ubicación de la página
-$additionalCss = ''; // CSS adicional específico de la página
-$additionalScripts = ''; // Scripts adicionales específicos de la página
+$basePath = "../"; 
+$additionalCss = ''; 
+$additionalScripts = ''; 
 
-// Incluir el header
 include_once __DIR__ . '/templates/headerlogin.php';
 ?>
 
@@ -74,6 +72,5 @@ include_once __DIR__ . '/templates/headerlogin.php';
     
 
 <?php
-// Incluir el footer    
 include_once __DIR__ . '/templates/footer.php';
 ?>  

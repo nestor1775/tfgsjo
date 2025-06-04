@@ -8,14 +8,13 @@ $workers= $workerController->getWorkers();
 $tokenUnico=$_GET['token'];
 
 
-// Define las variables necesarias
 $pageTitle = "Crear Parte";
-$basePath = "../"; // Ajusta según la ubicación de la página
-$additionalCss = ''; // CSS adicional específico de la página
+$basePath = "../"; 
+$additionalCss = ''; 
 $additionalScripts = '<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-<script src="../js/signature.js"></script>'; // Scripts adicionales específicos de la página
+<script src="../js/signature.js"></script>'; 
 
-// Incluir el header
+
 if(isset($_SESSION)){
     include_once __DIR__ . '/templates/header.php';
 }else{include_once __DIR__ . '/templates/headerlogin.php';}
@@ -31,13 +30,31 @@ if(isset($_SESSION)){
     <label class="text-lg mb-1" for="id_trabajador">Seleciona a los trabajadores</label>
     <div class="w-full space-y-2  border-2 border-gray-200 rounded-md p-2">
     <?php
-    foreach ($workers as $worker) {
-        echo '<div class="flex items-center space-x-2">';
-        echo '<input type="checkbox" id="worker_' . $worker['id'] . '" name="trabajadores[]" value="' . $worker['id'] . '" class="form-checkbox  h-5 w-5 text-blue-500">';
-        echo '<label for="worker_' . $worker['id'] . '" class="text-lg font-medium text-gray-800">' .  $worker['nombre'] . ' ' . $worker['apellido'] . '</label>';
-        echo '</div>';
-    }
-    ?>
+        $hayTrabajadoresActivos = false;
+
+        // Verificamos si hay al menos uno activo
+        foreach ($workers as $worker) {
+            if ($worker["is_active"] == 1) {
+                $hayTrabajadoresActivos = true;
+                break;
+            }
+        }
+
+        if ($hayTrabajadoresActivos) {
+            foreach ($workers as $worker) {
+                if ($worker["is_active"] == 1) {
+                    echo '<div class="flex items-center space-x-2">';
+                    echo '<input type="checkbox" id="worker_' . $worker['id'] . '" name="trabajadores[]" value="' . $worker['id'] . '" class="form-checkbox h-5 w-5 text-blue-500">';
+                    echo '<label for="worker_' . $worker['id'] . '" class="text-lg font-medium text-gray-800">' .  $worker['nombre'] . ' ' . $worker['apellido'] . '</label>';
+                    echo '</div>';
+                }
+            }
+        } else {
+            echo '<div class="flex items-center space-x-2">';
+            echo '<h2 class="text-red-600">Se deben agregar trabajadores antes</h2>';
+            echo '</div>';
+        }
+        ?>
     </div>
 
 
@@ -80,14 +97,22 @@ if(isset($_SESSION)){
         </div>
         <input type="hidden" name="firma_base64_airtek" id="firma_base64_airtek" required>
 
-        <button class="btn self-center mt-4" type="submit">Crear Parte</button>
+        <?php
+        
+        if ($hayTrabajadoresActivos){
+            echo '<button class="btn self-center mt-4" type="submit">Crear Parte</button>';
+        }else{
+            echo '<h2 class="text-red-600">Se deben agregar trabajadores antes</h2>';
+        }
+        ?>
+        
+        
     </form>
 </div>
 
 
 
 <?php
-// Incluir el footer
 include_once __DIR__ . '/templates/footer.php';
 ?>
 

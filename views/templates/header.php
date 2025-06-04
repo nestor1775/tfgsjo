@@ -76,7 +76,15 @@ $basePath = isset($basePath) ? $basePath : '../';
 
                     <?php endif; ?>
 
-                    
+                    <a class="mb-2" href="<?php echo $basePath; ?>index.php?action=insertWorker" class="flex items-center p-2  rounded-lg">
+                        <i class="fa fa-user-plus w-6"></i>
+                        <span>Nuevo trabajador</span>
+                    </a>
+
+                    <a class="mb-2" href="<?php echo $basePath; ?>index.php?action=deleteWorker" class="flex items-center p-2  rounded-lg">
+                        <i class="fa fa-user-times w-6"></i>
+                        <span>Eliminar trabajador</span>
+                    </a>
 
                     <a class="mb-2" href="<?php echo $basePath; ?>index.php?action=logout" class="flex items-center p-2  rounded-lg">
                         <i class="fas fa-sign-out-alt w-6"></i>

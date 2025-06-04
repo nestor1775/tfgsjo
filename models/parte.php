@@ -10,13 +10,46 @@ class Parte {
     }
 
     // Buscar parteporid
-    public function findByid($id) {
+    public function findByidOLD($id) {
         $stmt = $this->db->prepare("SELECT * FROM Partes WHERE id = ?");
         $stmt->bind_param("i", $id); // 's' es para string
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc(); // Devuelve un array asociativo o false
     }
+
+    public function findByid($id) {
+
+        $stmt = $this->db->prepare("SELECT * FROM Partes WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $parte = $result->fetch_assoc();
+    
+        if (!$parte) return false;
+    
+        // Obtener trabajadores asociados a ese parte
+        $stmtTrabajadores = $this->db->prepare("
+            SELECT t.nombre 
+            FROM parte_trabajador pt
+            JOIN Trabajadores t ON pt.id_trabajador = t.id
+            WHERE pt.id_parte = ?
+        ");
+        $stmtTrabajadores->bind_param("i", $id);
+        $stmtTrabajadores->execute();
+        $resultTrabajadores = $stmtTrabajadores->get_result();
+    
+        $trabajadores = [];
+        while ($row = $resultTrabajadores->fetch_assoc()) {
+            $trabajadores[] = $row['nombre'];
+        }
+    
+        // Añadir la lista al array del parte
+        $parte['trabajadores'] = $trabajadores;
+    
+        return $parte;
+    }
+    
 
     public function getAll() {
         $stmt = $this->db->prepare("SELECT * FROM partes");

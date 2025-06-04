@@ -1,11 +1,10 @@
 <?php
-// Define las variables necesarias
-$pageTitle = "Ver Proyecto";
-$basePath = "../"; // Ajusta según la ubicación de la página
-$additionalCss = ''; // CSS adicional específico de la página
-$additionalScripts = ''; // Scripts adicionales específicos de la página
 
-// Incluir el header
+$pageTitle = "Ver Proyecto";
+$basePath = "../"; 
+$additionalCss = ''; 
+$additionalScripts = ''; 
+
 include_once __DIR__ . '/templates/header.php';
 
 ?>
@@ -22,15 +21,23 @@ include_once __DIR__ . '/templates/header.php';
 
 
     if($_SESSION['usuario']['rol']==0){
+        $parsed_url = parse_url($proyecto['link_parte']);
+        parse_str($parsed_url['query'], $query_params);
+        $token = $query_params['token'] ?? null;
         if ($proyecto['is_activo'] == 0) {
             ?>
             <form class="flex justify-center mt-4" action="index.php?action=onProject" method="POST">
                 <input type="hidden" name="id_proyecto" value="<?php echo $proyecto['id']; ?>">
                 <button class="btn bg-sky-600 text-white  " type="submit">Activar proyecto</button>
             </form>
+            
             <?php
         } else if ($proyecto['is_activo'] == 1) {
             ?>
+            <form class="flex justify-center mt-4" action="index.php?action=fillParte&token=<?php echo $token ?>" method="POST">
+                <input type="hidden" name="id_proyecto" value="<?php echo $proyecto['id']; ?>">
+                <button class="btn bg-sky-600 text-white  " type="submit">Rellenar parte (interno)</button>
+            </form>
             <form class="flex justify-center mt-4" action="index.php?action=offProject" method="POST">
                 <input type="hidden" name="id_proyecto" value="<?php echo $proyecto['id']; ?>">
                 <button class="btn bg-red-600 text-white  " type="submit">Inactivar proyecto</button>
@@ -38,11 +45,8 @@ include_once __DIR__ . '/templates/header.php';
             <?php
         }
     } elseif ($_SESSION['usuario']['rol']==1) {
-        $parsed_url = parse_url($proyecto['link_parte']);
-        parse_str($parsed_url['query'], $query_params);
-        $token = $query_params['token'] ?? null;
-        ?>
         
+        ?>
             <form class="flex justify-center mt-4" action="index.php?action=fillParte&token=<?php echo $token ?>" method="POST">
                 <input type="hidden" name="id_proyecto" value="<?php echo $proyecto['id']; ?>">
                 <button class="btn bg-sky-600 text-white  " type="submit">Rellenar parte (interno)</button>
@@ -57,7 +61,7 @@ include_once __DIR__ . '/templates/header.php';
     <h2 class="m-4 text-lg flex justify-center">Partes</h2>
 
     <?php
-    foreach ($partes as $index => $parte) {
+    foreach (array_reverse($partes) as $index => $parte) {
         // Generar un ID único para cada modal
         $modal_id = "my_modal_" . $index;
     ?>
@@ -122,6 +126,5 @@ include_once __DIR__ . '/templates/header.php';
 
 
 <?php
-// Incluir el footer
     include_once __DIR__ . '/templates/footer.php';
 ?>

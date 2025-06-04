@@ -30,11 +30,11 @@
     loadEnv();
     
     // Configuración de la base de datos desde variables de entorno
-    $host = getenv('DB_HOST') ?: 'tfgnestor-tfgnestor.b.aivencloud.com'; 
-    $usuario = getenv('DB_USER') ?: 'avnadmin'; 
+    $host = getenv('DB_HOST') ; 
+    $usuario = getenv('DB_USER') ; 
     $contraseña = getenv('DB_PASS') ; 
-    $base_de_datos = getenv('DB_NAME') ?: 'AppPartesTrabajo';
-    $puerto = getenv('DB_PORT') ?: 19768;
+    $base_de_datos = getenv('DB_NAME') ;
+    $puerto = getenv('DB_PORT') ;
 
     $conexion = new mysqli($host, $usuario, $contraseña, $base_de_datos, $puerto);
     

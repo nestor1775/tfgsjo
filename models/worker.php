@@ -26,9 +26,12 @@ class Worker {
     }
 
     public function deleteTrabajador($id) {
-        $stmt = $this->db->prepare("DELETE FROM Trabajadores WHERE id = ?");
+
+        //realmente solo los inactivo porque si tienen partes asociados no los puedo borrar.
+        $stmt = $this->db->prepare("UPDATE Trabajadores SET is_active = 0 WHERE id = ?");
         $stmt->bind_param("i", $id); // 'i' indica que es un entero
-        return $stmt->execute(); // Devuelve true si se eliminó correctamente
+        return $stmt->execute(); // Devuelve true si se actualizó correctamente
+        
     }
     
     

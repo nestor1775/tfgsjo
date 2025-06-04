@@ -1,14 +1,12 @@
 <?php
 require_once __DIR__ . '/../controllers/parteController.php';
 
-// Configuración para la plantilla base
 $pageTitle = "Parte Creado";
 $basePath = "../";
 $additionalCss = '';
 $additionalScripts = '';
 
 
-// Incluir el header
 include_once __DIR__ . '/templates/header.php';
 ?>
 
@@ -46,6 +44,5 @@ include_once __DIR__ . '/templates/header.php';
 </div>
 
 <?php
-// Incluir el footer
 include_once __DIR__ . '/templates/footer.php';
 ?>

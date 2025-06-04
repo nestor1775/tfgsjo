@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../controllers/parteController.php';
 
-// Configuración para la plantilla base
 $pageTitle = "Parte Creado";
 $basePath = "../";
 $additionalCss = '';
@@ -43,15 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-// Ahora estamos ya en GET aquí
 $tokenUnico = $_GET['token'] ?? '';
 $success = $_GET['success'] ?? null;
 
-// Incluir el header
 include_once __DIR__ . '/templates/headerlogin.php';
 ?>
 
-<!-- Contenido específico de la página -->
 <div class="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto">
     <?php 
     if ($success == 1) {
@@ -80,6 +76,5 @@ include_once __DIR__ . '/templates/headerlogin.php';
 </div>
 
 <?php
-// Incluir el footer
 include_once __DIR__ . '/templates/footer.php';
 ?>

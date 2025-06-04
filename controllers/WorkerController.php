@@ -26,6 +26,11 @@ if (!class_exists('WorkerController')) {
             return $wokerModel->insertTrabajador($name,$apellido);
         }
 
+        public function deleteWorker($id) {
+            $wokerModel=new Worker();
+            return $wokerModel->deleteTrabajador($id);
+        }
+
         public function getWorkers() {
             $workerModel = new  Worker();
             return $workerModel->getAll();
